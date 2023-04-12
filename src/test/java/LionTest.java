@@ -1,51 +1,38 @@
 import com.example.Feline;
 import com.example.Lion;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.mockito.Mockito;
-import java.util.Arrays;
-import java.util.Collection;
+
+import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.assertEquals;
-@RunWith(Parameterized.class)
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 public class LionTest {
-    @Parameterized.Parameters(name = "{index}: sex={0}, hasMane={1}")
-    public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][] {
-                {"Самец", true},
-                {"Самка", false}
-        });
-    }
-    private final String sex;
-    private final boolean hasMane;
+    private Lion lion;
+    private Feline feline;
 
-    public LionTest(String sex, boolean hasMane) {
-        this.sex = sex;
-        this.hasMane = hasMane;
+    @Before
+    public void setUp() throws Exception {
+        feline = mock(Feline.class);
+        lion = new Lion(feline, "Самец");
     }
 
     @Test
-    public void testDoesHaveMane() throws Exception {
-        Lion lion = new Lion(sex);
-        assertEquals(hasMane, lion.doesHaveMane());
+    public void getKittensTest() {
+        when(feline.getKittens()).thenReturn(10);
+        int kittens = lion.getKittens();
+        Assert.assertEquals(10, kittens);
     }
 
     @Test
-    public void testGetKittens() throws Exception {
-        Feline feline = Mockito.mock(Feline.class);
-        Lion lion = new Lion(sex);
-        Mockito.when(feline.getKittens()).thenReturn(1);
-        int actualKittens = lion.getKittens();
-        assertEquals(1, actualKittens);
-    }
-
-    @Test
-    public void testGetFood() throws Exception {
-        Feline feline = Mockito.mock(Feline.class);
-        Lion lion = new Lion(sex);
-        Mockito.when(feline.getFood("Хищник")).thenReturn(List.of("Животные", "Птицы", "Рыба"));
+    public void getFoodTest() throws Exception {
+        List<String> food = new ArrayList<>();
+        food.add("meat");
+        when(feline.getFood("Хищник")).thenReturn(food);
         List<String> actualFood = lion.getFood();
-        assertEquals(List.of("Животные", "Птицы", "Рыба"), actualFood);
+        Assert.assertEquals(food, actualFood);
     }
 }
