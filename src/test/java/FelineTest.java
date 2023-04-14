@@ -5,7 +5,9 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 public class FelineTest {
+
     @Test
     public void testGetFamily() {
         Feline feline = new Feline();
@@ -27,5 +29,11 @@ public class FelineTest {
         Animal animalMock = mock(Animal.class);
         when(animalMock.getFood("")).thenThrow(new Exception("Неизвестный вид животного, используйте значение Травоядное или Хищник"));
         animalMock.getFood("");
+    }
+
+    @Test
+    public void testGetKittens () {
+        Feline feline = new Feline();
+        assertEquals(1, feline.getKittens());
     }
 }

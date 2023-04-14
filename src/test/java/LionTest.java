@@ -1,12 +1,10 @@
 import com.example.Feline;
 import com.example.Lion;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,7 +22,7 @@ public class LionTest {
     public void getKittensTest() {
         when(feline.getKittens()).thenReturn(10);
         int kittens = lion.getKittens();
-        Assert.assertEquals(10, kittens);
+        assertEquals(10, kittens);
     }
 
     @Test
@@ -33,6 +31,10 @@ public class LionTest {
         food.add("meat");
         when(feline.getFood("Хищник")).thenReturn(food);
         List<String> actualFood = lion.getFood();
-        Assert.assertEquals(food, actualFood);
+        assertEquals(food, actualFood);
+    }
+    @Test(expected = Exception.class)
+    public void lionIncorrectInstance() throws Exception {
+        new Lion(feline, "shemale");
     }
 }
